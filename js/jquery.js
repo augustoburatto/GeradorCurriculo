@@ -49,7 +49,11 @@ function createPdf() {
     nasc = moment(nasc, "YYYY/MM/DD");
     nasc = nasc.format("DD/MM/YYYY");
 
+<<<<<<< HEAD
     var html = '<h1>' + nome + '</h1><p><strong>Endereço: </strong>' + address + '</p><p><strong>Telenfoe: </strong>' + tel + '</p><p><strong>E-mail: </strong>' + email + '</p><p><strong>Data de Nascimento: </strong>' + nasc + '</p><p><strong>_________________________________________________________________________________</strong></p><h3>Sobre</h3><p>' + sobre + '</p>';
+=======
+    var html = '<h1>'+nome+'</h1><p><strong>Endereço: </strong>'+address+'</p><p><strong>Telefone: </strong>'+tel+'</p><p><strong>E-mail: </strong>'+email+'</p><p><strong>Data de Nascimento: </strong>'+nasc+'</p><p><strong>_________________________________________________________________________________</strong></p><h3>Sobre</h3><p>'+sobre+'</p>';
+>>>>>>> 9e0582f3e5c614eafbf36e9b08767afc92d73e5a
 
     html += '<p><strong>_________________________________________________________________________________</strong></p>';
     html += '<h3>Histórico Profissional</h3>';
