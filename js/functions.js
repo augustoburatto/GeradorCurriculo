@@ -63,7 +63,7 @@ function addFormacao() {
 }
 
 function addCompetencia() {
-    options = '<option value=""></option><option label="Básico" value="basico">Básico</option><option label="Intermediário" value="intermediario">Intermediário</option><option label="Avançado" value="avancado">Avançado</option>';
+    options = '<option value=""></option><option value="Básico">Básico</option><option value="Intermediário">Intermediário</option><option value="Avançado">Avançado</option>';
 
     // var competencias = document.getElementById('competencias');
     $('#competencias').append('<div class="col-sm-12 form-group"><div class="col-sm-5 form-group"><label>Descrição</label><input placeholder="Microsoft Excel" id="comp' + countComp + '" class="form-control" /></div><div class="col-sm-5 form-group"><label>Nível</label><select id="nivel' + countComp + '" class="form-control">' + options + '</select></div><div class="col-sm-3 form-group"><button id="comp' + countComp + '_rmv" class="btn btn-danger" onClick="removeCat(this, \'competencias\')">Remover</button></div></div>');
@@ -126,9 +126,12 @@ function createPdf() {
     for (f = 0; f < countFormacao; f++) {
         var inicio_edu = document.getElementById('inicio_edu' + f).value;
         var final_edu = document.getElementById('final_edu' + f).value;
+        var instituicao = document.getElementById('instituicao' + f).value;
+        var curso = document.getElementById('curso' + f).value;
+        var grau = document.getElementById('grau' + f).value;
         periodo_edu = " (" + inicio_edu + " - " + final_edu + ")";
         if (document.getElementById('instituicao' + f).value != '') {
-            html += '<p><strong>Instituição: </strong>' + document.getElementById('instituicao' + f).value + '</p><p><strong>Curso: </strong>' + document.getElementById('curso' + f).value + periodo_edu + '</p>';
+            html += '<p><strong>Instituição: </strong>' + instituicao + periodo_edu + '</p><p><strong>Curso: </strong>' + grau + ' - ' + curso + '</p>';
         }
     }
 
@@ -136,7 +139,10 @@ function createPdf() {
     html += '<h3>Competências</h3>';
     for (c = 0; c < countComp; c++) {
         var comp = document.getElementById('comp' + c).value;
-        var nivel = " (" + document.getElementById('nivel' + c).value + ")";
+        nivel = document.getElementById('nivel' + c).value
+        if (nivel != '') {
+            nivel = " (" + nivel + ")";
+        }
         if (comp != '') {
             html += '<p>- ' + comp + nivel + '</p>';
         }
