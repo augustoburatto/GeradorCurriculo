@@ -1,5 +1,5 @@
 <h1 align="center">
-     Gerador de Currílo em PDF
+     Gerador de Currículo em PDF
 </h1>
 
 ## Sobre
