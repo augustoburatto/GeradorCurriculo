@@ -94,7 +94,7 @@ $(document).ready(function () {
 
     setInterval(() => {
         clearStorage();
-    }, 100003);
+    }, 10000);
 });
 
 function addKeyup()
