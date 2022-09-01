@@ -1,15 +1,11 @@
+var key = 'fe8baaae5bef4d9b1a1d60d5c74e2403'; //gets the key from the user
 var countComp = 0;
 var countFormacao = 0;
 var countExper = 0;
-var maskPhone = "(##)#########";
-var maskNasc = "##/##/####";
-var maskDate = "##/####";
-var key = 'fe8baaae5bef4d9b1a1d60d5c74e2403'; //gets the key from the user
 
-var dezSegundos = 10000; // dez segundos em milissegundos
-var quinzeSegundos = 15000;
 function clearStorage()
 {
+    var quinzeSegundos = 15000; // 15 segundos em milissegundos
     var agora = new Date();
     var hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
     var msDesdeMeiaNoite = agora.getTime() - hoje.getTime();
@@ -84,10 +80,10 @@ function maskIt(w, e, m, r, a)
 
 $(document).ready(function () {
     $('#nasc').keyup(function (e) {
-        maskIt(this, e, maskNasc);
+        maskIt(this, e, "##/##/####");
     });
     $('#telefone').keyup(function (e) {
-        maskIt(this, e, maskPhone);
+        maskIt(this, e, "(##)#########");
     });
 
     setInterval(() => {
@@ -98,11 +94,12 @@ $(document).ready(function () {
 
     setInterval(() => {
         clearStorage();
-    }, dezSegundos);
+    }, 100003);
 });
 
 function addKeyup()
 {
+    var maskDate = "##/####";
     $('input[id^="inicio"]').keyup(function (e) {
         maskIt(this, e, maskDate);
     });
