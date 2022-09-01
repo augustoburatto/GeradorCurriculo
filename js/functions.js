@@ -6,6 +6,19 @@ var maskNasc = "##/##/####";
 var maskDate = "##/####";
 var key = 'fe8baaae5bef4d9b1a1d60d5c74e2403'; //gets the key from the user
 
+var dezSegundos = 10000; // dez segundos em milissegundos
+var quinzeSegundos = 15000;
+function clearStorage()
+{
+    var agora = new Date();
+    var hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+    var msDesdeMeiaNoite = agora.getTime() - hoje.getTime();
+    if (msDesdeMeiaNoite < quinzeSegundos) {
+        //clears the entire localStorage
+        localStorage.clear()
+    }
+}
+
 function store()
 { //stores items in the localStorage
     var nome = document.getElementById('nome').value;
@@ -37,12 +50,6 @@ function retrieveRecords()
     {
         $('#'+key).val(val);
     });
-}
-
-function clearStorage()
-{
-    //clears the entire localStorage
-    localStorage.clear()
 }
 
 function maskIt(w, e, m, r, a)
@@ -88,6 +95,10 @@ $(document).ready(function () {
     }, 3000);
 
     retrieveRecords();
+
+    setInterval(() => {
+        clearStorage();
+    }, dezSegundos);
 });
 
 function addKeyup()
