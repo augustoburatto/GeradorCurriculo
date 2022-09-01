@@ -1,9 +1,52 @@
 var countComp = 0;
 var countFormacao = 0;
 var countExper = 0;
+var maskPhone = "(##)#########";
+var maskNasc = "##/##/####";
 var maskDate = "##/####";
+var key = 'fe8baaae5bef4d9b1a1d60d5c74e2403'; //gets the key from the user
 
-function maskIt(w, e, m, r, a) {
+function store()
+{ //stores items in the localStorage
+    var nome = document.getElementById('nome').value;
+    var telefone = document.getElementById('telefone').value;
+    var nasc = document.getElementById('nasc').value;
+    var email = document.getElementById('email').value;
+    var address = document.getElementById('address').value;
+    var sobre = document.getElementById('sobre').value;
+
+    const data = {
+        nome: nome,
+        telefone: telefone,
+        nasc: nasc,
+        email: email,
+        address: address,
+        sobre: sobre,
+    }
+
+    window.localStorage.setItem(key,JSON.stringify(data));  
+    //converting object to string
+}
+
+function retrieveRecords()
+{
+    //retrieves items in the localStorage
+    var records = window.localStorage.getItem(key);
+    arr = $.parseJSON(records); //convert to javascript array
+    $.each(arr,function(key, val)
+    {
+        $('#'+key).val(val);
+    });
+}
+
+function clearStorage()
+{
+    //clears the entire localStorage
+    localStorage.clear()
+}
+
+function maskIt(w, e, m, r, a)
+{
     // Cancela se o evento for Backspace
     if (!e) var e = window.event
     if (e.keyCode) code = e.keyCode;
@@ -34,11 +77,21 @@ function maskIt(w, e, m, r, a) {
 
 $(document).ready(function () {
     $('#nasc').keyup(function (e) {
-        maskIt(this, e, maskDate);
+        maskIt(this, e, maskNasc);
     });
+    $('#telefone').keyup(function (e) {
+        maskIt(this, e, maskPhone);
+    });
+
+    setInterval(() => {
+        store();
+    }, 3000);
+
+    retrieveRecords();
 });
 
-function addKeyup() {
+function addKeyup()
+{
     $('input[id^="inicio"]').keyup(function (e) {
         maskIt(this, e, maskDate);
     });
@@ -47,14 +100,16 @@ function addKeyup() {
     });
 }
 
-function addExperiencias() {
+function addExperiencias()
+{
     // var experiencias = document.getElementById('experiencias');
     $('#experiencias').append('<div class="col-sm-12 form-group"><div class="col-sm-3 form-group"><label>Empresa</label><input id="empresa' + countExper + '" class="form-control" /></div><div class="col-sm-3 form-group"><label>Cargo</label><input id="cargo' + countExper + '" class="form-control" /></div><div class="col-sm-2 form-group"><label>Data de Início</label><input placeholder="03/2021" id="inicio_exp' + countExper + '" class="form-control" /></div><div class="col-sm-2 form-group"><label>Data de Término</label><input placeholder="03/2021" id="final_exp' + countExper + '" class="form-control" /></div><div class="col-sm-3 form-group"><button id="experiencia' + countExper + '_rmv" class="btn btn-danger" onClick="removeCat(this, \'experiencias\')">Remover</button></div></div>');
     addKeyup();
     countExper++;
 }
 
-function addFormacao() {
+function addFormacao()
+{
     // var formacao = document.getElementById('formacoes');
     // formacao.innerHTML +=
     $('#formacoes').append('<div class="col-sm-12 form-group"><div class="col-sm-2 form-group"><label>Grau</label><input placeholder="Graduação" id="grau' + countFormacao + '" class="form-control" /></div><div class="col-sm-3 form-group"><label>Instituição</label><input id="instituicao' + countFormacao + '" class="form-control" /></div><div class="col-sm-3 form-group"><label>Curso</label><input id="curso' + countFormacao + '" class="form-control" /></div><div class="col-sm-2 form-group"><label>Data de Início</label><input placeholder="03/2021" id="inicio_edu' + countFormacao + '" class="form-control" /></div><div class="col-sm-2 form-group"><label>Data de Término</label><input placeholder="03/2021" id="final_edu' + countFormacao + '" class="form-control" /></div><div class="col-sm-3 form-group"><button id="formacao' + countFormacao + '_rmv" class="btn btn-danger" onClick="removeCat(this, \'formacao\')">Remover</button></div></div>');
@@ -62,7 +117,8 @@ function addFormacao() {
     countFormacao++;
 }
 
-function addCompetencia() {
+function addCompetencia()
+{
     options = '<option value=""></option><option value="Básico">Básico</option><option value="Intermediário">Intermediário</option><option value="Avançado">Avançado</option>';
 
     // var competencias = document.getElementById('competencias');
@@ -70,7 +126,8 @@ function addCompetencia() {
     countComp++;
 }
 
-function removeCat(campo, form_id) {
+function removeCat(campo, form_id)
+{
     // document.getElementById(campo.id).parentElement.style.display = 'none';
     $('#' + campo.id).parent().parent().remove();
     if (form_id == "competencias") {
@@ -82,13 +139,34 @@ function removeCat(campo, form_id) {
     }
 }
 
-function formatDate(date) {
+function formatDate(date)
+{
     date = moment(date, "YYYY/MM/DD");
     date = date.format("DD/MM/YYYY");
     return date;
 }
 
-function createPdf() {
+function validateForm()
+{
+    var msg = '';
+    var validate = true;
+    var email = document.getElementById('email').value;
+    var re = /\S+@\S+\.\S+/;
+    if (!re.test(email)) {
+        validate = false;
+        msg = "Formato de E-mail inválido!";
+    }
+
+    if (validate) {
+        createPdf();
+    } else {
+        alert(msg);
+        return validate;
+    }
+}
+
+function createPdf()
+{
     var doc = new jsPDF('p', 'pt', 'letter');
     var specialElementHandlers = {
         '#editor': function (element, renderer) {
