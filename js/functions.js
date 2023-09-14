@@ -165,6 +165,19 @@ function validateForm()
         msg = "Formato de E-mail inválido!";
     }
 
+    var dateString = document.getElementById('nasc').value;
+    const date = new Date(dateString);
+    if (
+        isNaN(date.getTime()) || 
+        date.toISOString().slice(0, 10) !== dateString ||
+        date.getDate() !== parseInt(dateString.split('-')[2], 10) ||
+        date.getMonth() + 1 !== parseInt(dateString.split('-')[1], 10) ||
+        date.getFullYear() !== parseInt(dateString.split('-')[0], 10)
+    ) {
+        validate = false;
+        msg = "Formato da Data de Nascimento inválido!";
+    }
+
     if (validate) {
         createPdf();
     } else {
