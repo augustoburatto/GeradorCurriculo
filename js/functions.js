@@ -165,15 +165,8 @@ function validateForm()
         msg = "Formato de E-mail inválido!";
     }
 
-    var dateString = document.getElementById('nasc').value;
-    const date = new Date(dateString);
-    if (
-        isNaN(date.getTime()) || 
-        date.toISOString().slice(0, 10) !== dateString ||
-        date.getDate() !== parseInt(dateString.split('-')[2], 10) ||
-        date.getMonth() + 1 !== parseInt(dateString.split('-')[1], 10) ||
-        date.getFullYear() !== parseInt(dateString.split('-')[0], 10)
-    ) {
+    const dataNasc = document.getElementById('nasc').value;
+    if (!isDateValid(dataNasc)) {
         validate = false;
         msg = "Formato da Data de Nascimento inválido!";
     }
@@ -184,6 +177,18 @@ function validateForm()
         alert(msg);
         return validate;
     }
+}
+
+function isDateValid(dateString) {
+    const date = new Date(dateString);
+
+    return (
+      !isNaN(date.getTime()) && 
+      date.toISOString().slice(0, 10) === dateString &&
+      date.getDate() + 1 === parseInt(dateString.split('-')[2], 10) &&
+      date.getMonth() + 1 === parseInt(dateString.split('-')[1], 10) &&
+      date.getFullYear() === parseInt(dateString.split('-')[0], 10)
+    );
 }
 
 function createPdf()
