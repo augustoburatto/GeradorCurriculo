@@ -181,6 +181,8 @@ function validateForm()
 
 function isDateValid(dateString) {
     const date = new Date(dateString);
+    const dateNow = new Date();
+    const dateLimite = dateNow.getFullYear() - 16
 
     return (
       !isNaN(date.getTime()) && 
@@ -188,7 +190,8 @@ function isDateValid(dateString) {
       date.getDate() + 1 === parseInt(dateString.split('-')[2], 10) &&
       date.getMonth() + 1 === parseInt(dateString.split('-')[1], 10) &&
       date.getFullYear() === parseInt(dateString.split('-')[0], 10) &&
-      date.getFullYear() > 1950
+      date.getFullYear() > 1950 &&
+      date.getFullYear() <= dateLimite
     );
 }
 
