@@ -187,7 +187,8 @@ function isDateValid(dateString) {
       date.toISOString().slice(0, 10) === dateString &&
       date.getDate() + 1 === parseInt(dateString.split('-')[2], 10) &&
       date.getMonth() + 1 === parseInt(dateString.split('-')[1], 10) &&
-      date.getFullYear() === parseInt(dateString.split('-')[0], 10)
+      date.getFullYear() === parseInt(dateString.split('-')[0], 10) &&
+      date.getFullYear() > 1950
     );
 }
 
